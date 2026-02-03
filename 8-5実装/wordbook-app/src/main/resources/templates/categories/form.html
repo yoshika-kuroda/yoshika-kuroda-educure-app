@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>カテゴリ登録</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <form th:object="${category}" method="post" 
+          th:action="@{/categories/save}" th:if="${mode=='create'}">
+
+    <h1>新規カテゴリ登録</h1>      
+
+        <input type="hidden" th:field="*{categoryId}" /> 
+
+        <div>
+            <label>カテゴリ名: </label>
+            <input type="text" th:field="*{categoryName}" />
+            <span th:if="${#fields.hasErrors('categoryName')}" class="error-message"
+                  th:errors="*{categoryName}">
+            </span>
+        </div>  
+
+        <div class="button-row">
+        <button type="submit" class="words-button" >登録</button>
+        <a th:href="@{/categories}">
+            <button type="button" class="word-homebutton">カテゴリ一覧へ戻る</button>
+        </a>
+        </div>
+    </form>
+
+    <form th:object="${category}" method="post" 
+          th:action="@{/categories/{id}(id=${category.categoryId})}" th:if="${mode=='edit'}">
+
+    <h1>カテゴリ編集</h1>
+
+        <input type="hidden" th:field="*{categoryId}" >
+        <div>
+            <label>カテゴリ名: </label>
+            <input type="text" th:field="*{categoryName}">
+        </div>
+
+        <button type="submit" class="words-button">更新</button>
+        <form th:action="@{/categories}">
+        <button type="submit" class="word-homebutton">カテゴリ一覧へ戻る</button>
+        </form>
+    </form>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>カテゴリ一覧</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>    
+<body>
+    
+    <h1>カテゴリ一覧</h1>
+
+    <div class="button-row">
+    <form th:action="@{/categories/form}" method="get">
+        <button type="submit" class="words-button">新規カテゴリ登録</button>
+    </form>
+
+    <form th:action="@{/words}" method="get">
+        <button type="submit" class="word-homebutton">辞書検索へ戻る</button>
+    </form>
+    </div>
+
+    <table border="1" class="category-table">
+        <thead>
+            <tr>
+                <th>カテゴリ名</th>
+                <th>操作</th>
+            </tr>
+        </thead>    
+        <tbody>
+            <tr th:each="category : ${categories}">
+                <td style="display: none;" :text="${category.categoryId}"></td>
+                <td th:text="${category.categoryName}"></td>
+                <td>
+                    <div class="button-row">
+                    <a th:href="@{/categories/{id}/edit(id=${category.categoryId})}">
+                        <button type="submit" class="words-button">編集</button>
+                    </a>
+                    <form th:action="@{/categories/{id}/delete(id=${category.categoryId})}"method="post">
+                        <button type="submit" onclick="return confirm('本当に削除しますか?')" class="words-button">削除</button>
+                    </form>
+                    </div>
+                </td>
+            </tr>
+        </tbody>   
+    </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ユーザー詳細</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>    
+<body>
+    <h1>ユーザー詳細</h1>
+
+    <table border="1" class="category-table">
+        <tr>
+            <td>ID</td>
+            <td th:text="${user.userId}"></td>
+        </tr>
+        <tr>
+            <td>ユーザー名</td>
+            <td th:text="${user.userName}"></td>
+        </tr>
+        <tr>
+            <td>メールアドレス</td>
+            <td th:text="${user.email}"></td>
+        </tr>
+        <tr>
+            <td>ロール</td>
+            <td th:text="${user.role}"></td>
+        </tr>
+        <tr>
+            <td>登録日</td>
+            <td th:text="${#temporals.format(user.createdAt, 'yyyy-MM-dd')}"></td>
+        </tr>
+    </table>
+    <div class="button-row">
+    <form th:action="@{/users/{id}/delete(id=${user.userId})}" method="post">
+        <button type="submit" onclick="return confirm('本当に削除しますか?')" class="words-button">削除</button>
+    </form>
+    <form th:action="@{/users/list}">
+        <button type="submit" class="word-homebutton">ユーザー一覧へ戻る</button>
+    </form>
+    </div>
+</body>         
+</html>

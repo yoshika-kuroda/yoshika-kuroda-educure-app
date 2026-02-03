@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>    
+<body>
+    <h1>Home</h1>
+
+    <p th:text="'ようこそ' + ${name} + 'さん！'">ようこそ 名前 さん！</p>
+<div class ="button-column">
+    <div class="button-row">
+        <form th:action="@{/quiz}" method="get">
+            <button type="submit"class="button green-button">暗記モード</button>
+        </form>
+
+        <form th:action="@{/words}" method="get">
+            <button type="submit" class="button green-button">辞書モード</button>
+        </form>
+    </div>
+
+    <form th:action="@{/logout}" method="get">
+        <button type="submit" class="button red-button">ログアウト</button>
+    </form>
+</div>   
+</body>
+</html>    

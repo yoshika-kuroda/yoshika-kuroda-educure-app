@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>辞書検索</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script type="text/javascript" >
+        function submitForm(selectElement) {
+            selectElement.form.submit();
+        }
+    </script>
+</head>    
+<body>
+    <div class="words">
+    <h1>辞書検索</h1>
+    <form th:action="@{/home}" method="get">
+        <button type="submit" class="word-homebutton">ホームに戻る</button>
+    </form>
+    <div class="words-container">
+   <div class="left-position">
+    <form th:action="@{/words}" method="get">
+        <div class="left-position">
+        <input type="text" name="keyword" th:value="${keyword}">
+        <button type="submit" class="words-button">検索</button>
+        <a th:href="@{/words}">
+         <button type="button"class="words-button">クリア</button>
+        </a>
+        </div>
+    
+        <div class="left-position">
+        <select name="sort" onchange="submitForm(this)" class="words-button">
+            <option value="id" th:selected="${sort == 'id'}">登録日順</option>
+            <option value="created" th:selected="${sort == 'created'}">新着順</option>
+            <option value="name" th:selected="${sort == 'name'}">五十音順</option>
+        </select>
+
+        <select name="categoryId" onchange="submitForm(this)" class="words-button">
+            <option th:value="''" th:selected="${categoryId == null}">全て</option>
+            <option th:each="category : ${categories}" 
+                    th:value="${category.categoryId}" 
+                    th:selected="${category.categoryId == categoryId}" 
+                    th:text="${category.categoryName}">
+            </option>
+        </select>
+        </div>
+    </form>
+    </div>  
+
+    <div class="right-position">
+    <form th:action="@{/categories}" method="get">
+        <button type="submit" class="words-button">カテゴリ設定</button> 
+    </form>
+
+    <form th:action="@{/words/form}" method="get">
+        <button type="submit" class="words-button">単語新規登録</button> 
+    </form>
+
+    <a th:href="@{/words/export}" class="words-button">エクスポート</a>
+    </div>
+    </div>
+    <p th:if="${message}" th:text="${message}" class="message"></p>
+    <p th:if="${errorMessage}" th:text="${errorMessage}" class="error-message"></p>
+    <table border="1" class="word-table">
+        <thead>
+            <tr>
+                <th>単語</th>
+                <th>意味</th>
+                <th></th>
+            </tr>
+        </thead>    
+        <tbody>
+            <tr th:each="word : ${words}">
+                <td th:text="${word.word}"></td>
+                <td th:text="${#strings.abbreviate(word.meaning, 10)}"></td>
+                <td>
+                    <a th:href="@{/words/{id}/detail(id=${word.wordId})}"class="words-button">詳細</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+</body>
+</html>

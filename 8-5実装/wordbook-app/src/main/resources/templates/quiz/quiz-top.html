@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>暗記モード</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="button-column">
+    <h1>暗記モード</h1>
+
+    <form th:action="@{/quiz/start}" method="get">
+        <button type="submit" class="button green-button">スタート</button>
+    </form>
+    <form th:action="@{/home}" method="get">
+        <button type="submit" class="button blue-button">ホームに戻る</button>
+    </form>
+    </div>
+</body>
+</html>    

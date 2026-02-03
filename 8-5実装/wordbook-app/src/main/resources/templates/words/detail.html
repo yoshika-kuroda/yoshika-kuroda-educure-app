@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>単語詳細</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head> 
+<body class="body">
+    <h1>単語詳細</h1>
+
+    <table border="1" class="word-table">
+        <tr>
+            <td>単語</td>
+            <td th:text="${word.word}"></td>
+        </tr>
+        <tr>
+            <td>意味</td>
+            <td th:text="${word.meaning}"></td>
+        </tr>
+        <tr>
+            <td>カテゴリ</td>
+            <td th:text="${word.categoryNames}"></td>
+        </tr>
+        <tr>
+            <td>登録日</td>
+            <td th:text="${#temporals.format(word.createdAt, 'yyyy-MM-dd')}"></td>
+        </tr>
+        <tr>
+            <td>更新日</td>
+            <td th:text="${#temporals.format(word.updatedAt, 'yyyy-MM-dd')}"></td>
+        </tr>
+    </table>
+    <div class="button-row">
+    <form th:action="@{/words/{id}/edit(id=${word.wordId})}" method="get">
+        <button type="submit" class="button green-button">編集</button>
+    </form>
+    <form th:action="@{/words/{id}/delete(id=${word.wordId})}" method="post">
+        <button type="submit" onclick="return confirm('本当に削除しますか?')" class="button green-button">削除</button>
+    </form>
+    <a th:href="@{/words}">
+        <button type="submit" class="word-homebutton">辞書検索へ戻る</button>
+    </a>
+    </div>
+</body> 
+</html>  

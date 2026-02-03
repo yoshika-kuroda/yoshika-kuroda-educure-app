@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>スタート</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>    
+<body>
+    <div class="quiz-container">
+        <div class="quiz-content">
+            <p th:text="${question}" class="question"></p>
+            <p th:if="${mode == 'answer'}" th:text="${answer}" class="answer"></p>
+        </div>
+
+        <div class="button-area">
+            <form th:if="${mode == 'question'}" th:action="@{/quiz/answer}" method="get">
+                <button type="submit" class="button green-button">回答を見る</button> 
+            </form>
+
+            <form th:if="${mode == 'answer'}" th:action="@{/quiz/next}" method="get">
+                <button type="submit" class="button green-button">次の問題へ</button> 
+            </form>
+
+            <div class="button-area" th:if="${mode == 'finish'}" >
+                <form th:action="@{/quiz/start}" method="get">
+                    <button type="submit" class="button green-button">もう一度</button> 
+                </form>
+                <form th:action="@{/quiz}" method="get">
+                    <button type="submit" class="button blue-button">トップに戻る</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+    

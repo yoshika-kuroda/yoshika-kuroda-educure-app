@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ユーザー一覧</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>    
+<body>
+    <h1>ユーザー一覧</h1>
+
+    <table border="1" class="category-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>ユーザー名</th>
+                <th></th>
+            </tr>
+        </thead>    
+        <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.userId}"></td>
+                <td th:text="${user.userName}"></td>
+                <td>
+                    <form th:action="@{/users/{id}/detail(id=${user.userId})}" method="get">
+                        <button type="submit">詳細</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>  
+    </table>  
+    <form th:action="@{/logout}" method="post">
+        <button type="submit" class="button red-button">ログアウト</button>
+    </form> 
+</body>         
+</html>

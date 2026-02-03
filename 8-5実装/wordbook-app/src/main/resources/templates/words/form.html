@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>単語登録</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    
+    <div th:if="${mode == 'create'}">
+    <h1>新規単語登録</h1> 
+
+    <div class="upload-section"> 
+        <p class="text">CSVアップロード</p>
+        <form th:action="@{/words/import}" method="post" enctype="multipart/form-data">
+            <input type="file" name="csvFile" accept=".csv">
+            <button type="submit"class="words-button">アップロード</button>
+        </form>
+    </div>
+    
+    <form th:object="${word}" method="post" 
+          th:action="@{/words/save}"  class="words-form">
+
+        <input type="hidden" th:field="*{wordId}" >
+
+        <div class="form-item">
+            <label for="word">単語:</label> 
+            <input type="text" name="word" th:field="*{word}">
+            <span th:if="${#fields.hasErrors('word')}" class="error-message"
+                  th:errors="*{word}">
+            </span>
+        </div>  
+        <div class="form-item">
+            <label for="meaning">意味:</label>
+            <input type="text" name="meaning" th:field="*{meaning}">
+            <span th:if="${#fields.hasErrors('meaning')}" class="error-message"
+                  th:errors="*{meaning}">
+            </span>
+        </div>   
+
+        <div class="form-item">
+        <label>カテゴリ: </label>
+        <div class="category-checkbox" th:each="category : ${categories}">
+            <label>
+                <input type="checkbox" 
+                th:value="${category.categoryId}" 
+                th:field="*{categoryIds}">
+                <span th:text="${category.categoryName}">
+                </span>
+            </label>
+        </div>
+        </div>
+ 
+        <div class="button-row-category">
+        <button type="submit" class="words-button">登録</button>
+        <a th:href="@{/words}"class="word-homebutton">一覧へ戻る</a>
+        </div>
+    </form>
+    </div>
+
+    <div th:if="${mode == 'edit'}">
+    
+    <h1>単語編集</h1>
+
+    <form th:object="${word}" method="post" 
+          th:action="@{/words/{id}(id=${word.wordId})}" class="words-form">
+
+        <input type="hidden" th:field="*{wordId}" >
+
+        <div class="form-item">
+            <label for="word">単語:</label> 
+            <input type="text" name="word" th:field="*{word}">
+            <span th:if="${#fields.hasErrors('word')}" class="error-message"
+                      th:errors="*{word}">
+                </span>
+        </div>  
+
+        <div class="form-item">
+            <label for="meaning">意味:</label>
+            <input type="text" name="meaning" th:field="*{meaning}">
+            <span th:if="${#fields.hasErrors('meaning')}" class="error-message"
+                  th:errors="*{meaning}">
+            </span>
+        </div>   
+
+        <div class="form-item">
+        <label>カテゴリ: </label>
+        <div class="category-checkbox" th:each="category : ${categories}">
+            <label>
+             <input type="checkbox" th:value="${category.categoryId}" th:field="*{categoryIds}">
+              <span th:text="${category.categoryName}"></span>
+            </label>  
+        </div>
+        </div>
+
+        <div class="button-row-category">
+        <button th:if="${mode == 'edit'}" type="submit"class="words-button">更新</button>
+        <a th:href="@{/words/{id}/detail(id=${word.wordId})}"class="word-homebutton">単語詳細へ戻る</a>
+        </div>
+    </form>
+    </div>
+</body>    
+</html>

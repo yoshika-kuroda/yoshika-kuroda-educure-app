@@ -1,0 +1,70 @@
+<?xml version ="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.educure.wordbook_app.mapper.WordMapper">
+
+    <select id="findAllWord" resultType="jp.educure.wordbook_app.entity.Word">
+        SELECT w.*
+        FROM words w
+        <if test="categoryId != null">
+            JOIN word_categories wc ON w.word_id=wc.word_id
+        </if>
+        WHERE 1=1
+        <if test="categoryId != null">
+            AND wc.category_id = #{categoryId}
+        </if>    
+        <if test="keyword != null and keyword != ''">
+            AND w.word ILIKE '%'|| #{keyword} ||'%'
+        </if>
+        
+        <choose>
+            <when test="sort == 'created'">
+                ORDER BY w.created_at DESC
+            </when>
+            <when test="sort == 'name'">
+                ORDER BY w.word ASC
+            </when>
+            <otherwise>
+                ORDER BY w.word_id ASC
+            </otherwise>
+        </choose>    
+    </select>        
+
+    <select id="findByIdWord" resultType="jp.educure.wordbook_app.entity.Word">
+        SELECT * FROM words WHERE word_id = #{wordId}
+    </select>
+
+    <insert id="insert" parameterType="jp.educure.wordbook_app.entity.Word" useGeneratedKeys="true" keyProperty="wordId">
+        INSERT INTO words (word,meaning)
+        VALUES (#{word},#{meaning})
+    </insert>
+
+    <update id="update" parameterType="jp.educure.wordbook_app.entity.Word">
+        UPDATE words
+        SET word =#{word},meaning =#{meaning}
+        WHERE word_id =#{wordId}
+    </update>
+ 
+    <delete id="delete" >
+        DELETE FROM words WHERE word_id =#{wordId}
+    </delete>
+
+    <insert id="insertWordCategory">
+        INSERT INTO word_categories (word_id,category_id)
+        VALUES (#{wordId},#{categoryId})
+    </insert>
+
+    <delete id="deleteWordCategoriesByWordId" parameterType="Long">
+        DELETE FROM word_categories
+        WHERE word_id = #{wordId}
+    </delete>
+
+    <select id="findCategoryIdsByWordId" resultType="Long">
+        SELECT category_id
+        FROM word_categories
+        WHERE word_id = #{wordId} 
+    </select>              
+</mapper>
+
+
+

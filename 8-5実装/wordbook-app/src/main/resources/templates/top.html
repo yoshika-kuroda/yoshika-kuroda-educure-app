@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Top</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>    
+<body>
+    <h1>単語帳アプリ</h1>
+    <a th:href="@{/oauth2/authorization/google?prompt=select_account}" class="login-button">
+        Googleアカウントでログイン</a>
+</body>
+</html>    

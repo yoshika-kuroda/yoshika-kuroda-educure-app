@@ -1,0 +1,57 @@
+<?xml version ="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.educure.wordbook_app.mapper.CategoryMapper">
+
+
+    <select id="findAllCategory" resultType="jp.educure.wordbook_app.entity.Category">
+        SELECT * FROM categories_wordbookapp
+    </select>
+
+    <select id="findByIdCategory" resultType="jp.educure.wordbook_app.entity.Category">
+        SELECT * FROM categories_wordbookapp WHERE category_id = #{categoryId}
+    </select>
+
+    <select id="findCategoryNamesByWordId" parameterType="Long" resultType="String">
+        SELECT categories_wordbookapp.category_name
+        FROM categories_wordbookapp 
+        JOIN word_categories
+        ON categories_wordbookapp.category_id = word_categories.category_id
+        WHERE word_categories.word_id = #{wordId}
+    </select>
+
+    <insert id="insert" parameterType="jp.educure.wordbook_app.entity.Category">
+        INSERT INTO categories_wordbookapp (category_name)
+        VALUES (#{categoryName})
+    </insert>    
+
+
+    <update id="update" parameterType="jp.educure.wordbook_app.entity.Category">
+        UPDATE categories_wordbookapp
+        SET category_name = #{categoryName}
+        WHERE category_id = #{categoryId}    
+    </update>
+
+    <delete id="delete">
+        DELETE FROM categories_wordbookapp WHERE category_id = #{categoryId}
+    </delete>
+
+    <select id="findCategoryNames" resultType="String">
+            SELECT c.category_name
+            FROM categories_wordbookapp c
+            JOIN word_categories wc ON c.category_id = wc.category_id 
+            WHERE wc.word_id = #{wordId}
+    </select>
+
+    <select id="findIdByCategoryName" resultType="Long">
+        SELECT category_id
+        FROM categories_wordbookapp
+        WHERE category_name = #{categoryName}
+    </select>   
+
+    <insert id="insertCategoryName" useGeneratedKeys="true" keyProperty="categoryId">
+        INSERT INTO categories_wordbookapp (category_name)
+        VALUES (#{categoryName})
+    </insert>     
+</mapper>
+
